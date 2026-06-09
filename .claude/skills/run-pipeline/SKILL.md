@@ -47,6 +47,15 @@ for each file in <codebook_root>proposals/run-pipeline-*.md:
 
 ### 2. Codegraph CLI 与索引确认
 
+> **执行方式**：本 skill 通过 **Bash 工具**直接调用 `codegraph` 可执行文件，禁止调用任何 `codegraph_*` MCP 工具，也不依赖 Codegraph MCP 服务器。
+>
+> 本文档中 `exec_json(args)` 的含义：使用 **Bash 工具**执行 `args` 数组拼接的命令（数组元素以空格分隔），解析并返回标准输出的 JSON。例如：
+>
+> ```
+> exec_json(["codegraph", "status", "-j", "/path/to/source"])
+> # 等价于 Bash: codegraph status -j /path/to/source
+> ```
+
 若 `<codebook_root>codegraph-tools.json` 已存在则读取它，否则先以内存方式读取 `resources/codebook/defaults/codegraph-tools.json`；第 3 步再完成输出目录初始化。读取其中的 `transport` 和 `commands`，固定设置：
 
 ```
