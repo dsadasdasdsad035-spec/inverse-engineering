@@ -1,0 +1,42 @@
+{
+  "name": "temp_ui",
+  "version": "1.0",
+  "description": "将前端 codegraph 节点证据转成结构化 UI 布局 JSON。",
+  "input_refs": [
+    "entries.json",
+    "semantic-kinds.json",
+    "evidence/<entry-id>/nodes.json"
+  ],
+  "prompt": "根据以下前端页面、组件、store、hook、API 节点及调用关系生成 UI 布局 JSON。只输出证据中存在的区域、组件、交互和数据绑定；未知位置使用 flow 布局，不生成静态页面。输入：{input}",
+  "output_schema": {
+    "type": "object",
+    "required": [
+      "layout",
+      "source_nodes",
+      "confidence"
+    ],
+    "properties": {
+      "layout": {
+        "type": "object",
+        "required": [
+          "type",
+          "children"
+        ],
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "children": {
+            "type": "array"
+          }
+        }
+      },
+      "source_nodes": {
+        "type": "array"
+      },
+      "confidence": {
+        "type": "number"
+      }
+    }
+  }
+}

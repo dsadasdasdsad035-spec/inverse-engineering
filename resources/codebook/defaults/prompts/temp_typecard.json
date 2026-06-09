@@ -1,0 +1,52 @@
+{
+  "name": "temp_typecard",
+  "version": "1.0",
+  "description": "将单个符号节点及调用关系转成可追溯的类型卡片。",
+  "input_refs": [
+    "evidence/<entry-id>/nodes.json"
+  ],
+  "prompt": "根据以下 codegraph 节点、调用者和被调用者证据生成类型卡片。只陈述证据支持的事实，保留 source_nodes，分别输出属性、行为、约束、事件和语义 kind。输入：{input}",
+  "output_schema": {
+    "type": "object",
+    "required": [
+      "name",
+      "file",
+      "native_kind",
+      "semantic_kind",
+      "attributes",
+      "behaviors",
+      "constraints",
+      "events",
+      "source_nodes"
+    ],
+    "properties": {
+      "name": {
+        "type": "string"
+      },
+      "file": {
+        "type": "string"
+      },
+      "native_kind": {
+        "type": "string"
+      },
+      "semantic_kind": {
+        "type": "string"
+      },
+      "attributes": {
+        "type": "array"
+      },
+      "behaviors": {
+        "type": "array"
+      },
+      "constraints": {
+        "type": "array"
+      },
+      "events": {
+        "type": "array"
+      },
+      "source_nodes": {
+        "type": "array"
+      }
+    }
+  }
+}

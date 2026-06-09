@@ -1,0 +1,73 @@
+{
+  "version": "1.0",
+  "description": "顶级入口发现规则与当前入口清单。初始化时由 codegraph_status、codegraph_files 和大模型识别结果填充 entries。",
+  "discovery": {
+    "priority": [
+      "explicit",
+      "module",
+      "backend_package",
+      "frontend_root",
+      "project_root"
+    ],
+    "explicit": {
+      "module_arguments": [],
+      "package_arguments": []
+    },
+    "module": {
+      "markers": [
+        "pom.xml",
+        "build.gradle",
+        "settings.gradle",
+        "package.json",
+        "pyproject.toml",
+        "go.mod"
+      ],
+      "minimum_source_files": 1
+    },
+    "backend_package": {
+      "granularity": "common_root_plus_one",
+      "package_declaration_patterns": [
+        "package ",
+        "namespace "
+      ]
+    },
+    "frontend_root": {
+      "candidate_paths": [
+        "frontend/src",
+        "web/src",
+        "ui/src",
+        "client/src",
+        "src"
+      ],
+      "required_extensions": [
+        ".vue",
+        ".tsx",
+        ".jsx",
+        ".ts",
+        ".js"
+      ]
+    },
+    "project_root": {
+      "enabled": true
+    }
+  },
+  "entry_schema": {
+    "required": [
+      "id",
+      "entry_type",
+      "path",
+      "languages",
+      "include_patterns",
+      "enabled"
+    ],
+    "entry_types": [
+      "explicit_module",
+      "explicit_package",
+      "module",
+      "backend_package",
+      "frontend_root",
+      "project_root"
+    ]
+  },
+  "entries": []
+}

@@ -1,0 +1,15 @@
+{
+  "skill_name": "ingest",
+  "run_id": "20260606T143320Z",
+  "tech_agnostic_score": 0.0,
+  "completeness_score": 0.0,
+  "uml_coverage_score": 0.0,
+  "parsed_files": 982,
+  "total_files": 992,
+  "symbol_count": 13339,
+  "degraded_files": 10,
+  "skipped_uml_types": [],
+  "refine_count": 0,
+  "max_refine_reached": false,
+  "force_run": false
+}

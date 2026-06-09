@@ -1,0 +1,33 @@
+{
+  "name": "temp_data_model",
+  "version": "1.0",
+  "description": "按顶级入口生成数据模型证据。",
+  "input_refs": [
+    "evidence/<entry-id>/typecards.json",
+    "evidence/<entry-id>/nodes.json"
+  ],
+  "prompt": "基于以下类型卡片和节点源码生成数据模型。列出实体、字段、关系、值域、写入证据和公开方法；未发现真实写入的状态必须标记为未生效。输入：{input}",
+  "output_schema": {
+    "type": "object",
+    "required": [
+      "entry_id",
+      "entities",
+      "relationships",
+      "source_nodes"
+    ],
+    "properties": {
+      "entry_id": {
+        "type": "string"
+      },
+      "entities": {
+        "type": "array"
+      },
+      "relationships": {
+        "type": "array"
+      },
+      "source_nodes": {
+        "type": "array"
+      }
+    }
+  }
+}
