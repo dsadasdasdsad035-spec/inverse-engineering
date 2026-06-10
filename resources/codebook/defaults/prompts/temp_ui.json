@@ -7,7 +7,7 @@
     "semantic-kinds.json",
     "evidence/<entry-id>/nodes.json"
   ],
-  "prompt": "根据以下前端页面、组件、store、hook、API 节点及调用关系生成 UI 布局 JSON。只输出证据中存在的区域、组件、交互和数据绑定；未知位置使用 flow 布局，不生成静态页面。输入：{input}",
+  "prompt": "根据以下前端 TypeCard 证据生成 UI 布局 JSON。只读取 semantic_kind=page 的 TypeCard 作为主体输出；semantic_kind=api 的 TypeCard 仅作关联查询，不直接输出到文档。对每个 page 区域下的可交互元素，将 TypeCard 中的 interactions 数组原样映射到对应区域的 interactions 层。只输出证据中存在的区域、组件、交互和数据绑定；未知位置使用 flow 布局，不生成静态页面。输入：{input}",
   "output_schema": {
     "type": "object",
     "required": [
@@ -27,7 +27,26 @@
             "type": "string"
           },
           "children": {
-            "type": "array"
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "interactions": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": ["element", "user_action", "api_call", "success_effect", "failure_effect"],
+                    "properties": {
+                      "element":        { "type": "string" },
+                      "user_action":    { "type": "string" },
+                      "api_call":       { "type": "string" },
+                      "success_effect": { "type": "string" },
+                      "failure_effect": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       },
