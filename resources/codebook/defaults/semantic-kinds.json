@@ -29,7 +29,7 @@
     {
       "semantic_kind": "api",
       "native_kind": "function",
-      "path_regex": "(^|/)(api|apis|services|clients)/",
+      "path_regex": "(^|/)(api|apis|services|clients|request|requests|http|fetch|network)/",
       "name_regex": ".*"
     },
     {
