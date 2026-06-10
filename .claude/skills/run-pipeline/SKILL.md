@@ -345,12 +345,12 @@ if entry_coverage[entry.id].symbol_enumeration_complete != true:
 
 | 模板                       | 输入                              | 输出文档            |
 | -------------------------- | --------------------------------- | ------------------- |
-| `temp_ui.json`             | `typecards.json` + `nodes.json`   | `ui-layout.md`      |
+| `temp_ui.json`             | `typecards.json`（仅 page 类型）  | `ui-layout.md`      |
 | `temp_architecture.json`   | `entries.json` + `typecards.json` | `architecture.md`   |
 | `temp_business_flows.json` | `typecards.json` + `nodes.json`   | `business-flows.md` |
 | `temp_data_model.json`     | `typecards.json` + `nodes.json`   | `data-model.md`     |
-| `temp_architecture.json`   | `typecards.json` + `nodes.json`   | `state-machines.md` |
-| `temp_architecture.json`   | `typecards.json` + `nodes.json`   | `error-handling.md` |
+| `temp_data_model.json`     | `typecards.json` + `nodes.json`   | `state-machines.md` |
+| `temp_business_flows.json` | `typecards.json` + `nodes.json`   | `error-handling.md` |
 | `temp_data_model.json`     | `typecards.json` + `nodes.json`   | `database.md`       |
 | `temp_architecture.json`   | 全部 TypeCard + 全部文档          | `DOCUMENTATION.md`  |
 | `temp_srs.json`            | `typecards.json` + 全部文档       | `srs.md`            |
