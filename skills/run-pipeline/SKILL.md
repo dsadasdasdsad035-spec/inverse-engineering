@@ -53,6 +53,12 @@ for each file in <codebook_root>proposals/run-pipeline-*.md:
 
 > **执行方式**：本 skill 通过 **Bash 工具**直接调用 `codegraph` 可执行文件，禁止调用任何 `codegraph_*` MCP 工具，也不依赖 Codegraph MCP 服务器。
 >
+> **硬性约束（全流程第 0～12 步适用）**：
+>
+> 1. **禁止使用任何 Python 脚本**：不得生成 `.py` 文件，不得通过 `python -c`、`python3` 或任何解释器管道处理命令输出。所有 JSON 解析由执行者（Claude）在上下文中直接完成。
+> 2. **禁止用 Bash 长循环封装**：不得编写 `for ... do ... done` 长串循环脚本批量执行查询；逐文件、逐符号的遍历由执行者按批次直接发起多个并行 Bash 工具调用完成。
+> 3. **`exec_json()` 路径上禁止截断**：执行需要解析 JSON 的命令时，禁止追加 `| head`、`| tail`、`| cut` 等任何截断或过滤管道。需要人工预览时，必须先将完整标准输出重定向到文件，再单独查看该文件。
+>
 > 本文档中 `exec_json(args)` 的含义：使用 **Bash 工具**执行 `args` 数组拼接的命令（数组元素以空格分隔），解析并返回标准输出的 JSON。例如：
 >
 > ```
@@ -337,6 +343,14 @@ for each base_file in inventory.files:
 第 6 步必须以扩展后的 `inventory.json.files` 为准完成逐文件节点枚举和数量对账。未被纳入 `inventory.json.files` 的关联文件不得作为当前入口的 `source_nodes`，只能出现在 `external_references` 或调用关系摘要中。
 
 ### 6. 逐文件定位原生符号
+
+> **大规模执行策略（入口级子 Agent 分片）**：当入口文件总数较大（如超过 50 个文件）时，第 6～7 步按入口分片并行执行：
+>
+> 1. 主流程完成第 1～5 步后，对每个 `enabled=true` 且有源码文件的入口启动一个独立子 Agent；
+> 2. 每个子 Agent 接收 `entry_id`、该入口 `inventory.json` 路径、`<source>` 路径和 `index_total_nodes`，独立完成本入口的第 6 步（逐文件查询与数量对账）和第 7 步（节点深挖与 TypeCard 生成），结果写入 `evidence/<entry-id>/nodes.json` 与 `typecards.json`；
+> 3. 子 Agent 内部每轮并行发起 10～20 个 Bash 工具调用（对应 10～20 个文件的 `codegraph query`），批次之间将中间结果落盘到 `checkpoints/`，支持断点续跑；
+> 4. 任一入口失败只阻断该入口，不影响其他入口；主流程在第 8 步前汇总所有入口的 `symbol_enumeration_complete` 进行门禁检查；
+> 5. 子 Agent 同样受上文硬性约束约束：禁止 Python 脚本、禁止 Bash 长循环、`exec_json()` 路径禁止截断管道。
 
 读取 `codegraph-tools.json.symbol_enumeration` 和 `codegraph-tools.json.tools.codegraph_query.kinds`。这些 kind 必须是 Codegraph 原生 kind，例如 `class/interface/type/method/function/route/component/variable`。
 
@@ -697,6 +711,9 @@ for each failing_dimension:
 
 ## Done When
 
+- [ ] 第 0～12 步全程未使用任何 Python 脚本或 Bash 长循环封装
+- [ ] 所有 `exec_json()` 命令均完整捕获输出，未使用 `head`/`tail` 等截断管道
+- [ ] 大文件量入口已按入口级子 Agent 分片并行完成第 6～7 步
 - [ ] codegraph 索引确认可用
 - [ ] Codegraph CLI 版本满足 `transport.minimum_version`，全流程不依赖 Codegraph MCP 服务
 - [ ] `<codebook_root>` 缺失时已从 `resources/codebook/defaults/` 初始化
