@@ -1,0 +1,67 @@
+{
+  "name": "temp_typecard",
+  "version": "1.0",
+  "description": "将单个符号节点及调用关系转成可追溯的类型卡片。",
+  "input_refs": [
+    "evidence/<entry-id>/nodes.json"
+  ],
+  "prompt": "根据以下 codegraph 节点、调用者和被调用者证据生成类型卡片。只陈述证据支持的事实，保留 source_nodes，分别输出属性、行为、约束、事件和语义 kind。behaviors 字段每条用一句话概括核心业务意图，不出现方法名。当 semantic_kind 为 page 时，额外输出 interactions 数组：从 callers/callees 证据中提取每个可交互元素的完整链路，每条包含 element（交互元素名称）、user_action（用户操作）、api_call（调用的 API）、success_effect（成功副作用）、failure_effect（失败副作用）。输入：{input}",
+  "output_schema": {
+    "type": "object",
+    "required": [
+      "name",
+      "file",
+      "native_kind",
+      "semantic_kind",
+      "attributes",
+      "behaviors",
+      "constraints",
+      "events",
+      "source_nodes"
+    ],
+    "properties": {
+      "name": {
+        "type": "string"
+      },
+      "file": {
+        "type": "string"
+      },
+      "native_kind": {
+        "type": "string"
+      },
+      "semantic_kind": {
+        "type": "string"
+      },
+      "attributes": {
+        "type": "array"
+      },
+      "behaviors": {
+        "type": "array"
+      },
+      "constraints": {
+        "type": "array"
+      },
+      "events": {
+        "type": "array"
+      },
+      "source_nodes": {
+        "type": "array"
+      },
+      "interactions": {
+        "type": "array",
+        "description": "仅 semantic_kind=page 时填充，描述每个可交互元素的完整链路",
+        "items": {
+          "type": "object",
+          "required": ["element", "user_action", "api_call", "success_effect", "failure_effect"],
+          "properties": {
+            "element":        { "type": "string" },
+            "user_action":    { "type": "string" },
+            "api_call":       { "type": "string" },
+            "success_effect": { "type": "string" },
+            "failure_effect": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

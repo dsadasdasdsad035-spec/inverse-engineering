@@ -1,0 +1,31 @@
+{
+  "name": "temp_srs",
+  "version": "1.0",
+  "description": "汇总所有入口文档并生成技术无关 SRS。",
+  "input_refs": [
+    "evidence/*/typecards.json",
+    "architecture.md",
+    "business-flows.md",
+    "data-model.md"
+  ],
+  "prompt": "将以下所有顶级入口的证据汇总为技术无关 SRS。按业务能力生成 FR 和可验证的 NFR，不出现语言、框架、类名、方法名或数据库技术术语，并保留每条需求的入口和 source_nodes 追溯信息。输入：{input}",
+  "output_schema": {
+    "type": "object",
+    "required": [
+      "functional_requirements",
+      "non_functional_requirements",
+      "traceability"
+    ],
+    "properties": {
+      "functional_requirements": {
+        "type": "array"
+      },
+      "non_functional_requirements": {
+        "type": "array"
+      },
+      "traceability": {
+        "type": "array"
+      }
+    }
+  }
+}

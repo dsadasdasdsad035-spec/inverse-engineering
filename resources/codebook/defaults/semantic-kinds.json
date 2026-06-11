@@ -1,0 +1,49 @@
+{
+  "version": "1.0",
+  "description": "将 codegraph 原生 kind、路径和命名特征映射为文档生成使用的语义 kind。",
+  "rules": [
+    {
+      "semantic_kind": "page",
+      "native_kind": "component",
+      "path_regex": "(^|/)(pages|views|screens)/",
+      "name_regex": ".*"
+    },
+    {
+      "semantic_kind": "component",
+      "native_kind": "component",
+      "path_regex": "(^|/)(components|widgets)/",
+      "name_regex": ".*"
+    },
+    {
+      "semantic_kind": "store",
+      "native_kind": "variable",
+      "path_regex": "(^|/)(store|stores|state)/",
+      "name_regex": ".*"
+    },
+    {
+      "semantic_kind": "hook",
+      "native_kind": "function",
+      "path_regex": "(^|/)(hooks|composables)/",
+      "name_regex": "^(use|createUse).*"
+    },
+    {
+      "semantic_kind": "api",
+      "native_kind": "function",
+      "path_regex": "(^|/)(api|apis|services|clients|request|requests|http|fetch|network)/",
+      "name_regex": ".*"
+    },
+    {
+      "semantic_kind": "route",
+      "native_kind": "route",
+      "path_regex": ".*",
+      "name_regex": ".*"
+    },
+    {
+      "semantic_kind": "function",
+      "native_kind": "function",
+      "path_regex": ".*",
+      "name_regex": ".*"
+    }
+  ],
+  "fallback_semantic_kind": "function"
+}

@@ -1,0 +1,22 @@
+{
+  "version": "1.0",
+  "codebook_root": "<output>/.codebook",
+  "description": "run-pipeline 本次输出目录下的配置、提示词和中间证据清单。",
+  "initialization": {
+    "mode": "create_if_missing",
+    "preserve_existing_files": true,
+    "refresh_entries_only": true
+  },
+  "config_files": [
+    "manifest.json",
+    "entries.json",
+    "codegraph-tools.json",
+    "semantic-kinds.json"
+  ],
+  "prompt_directory": "prompts",
+  "evidence_directory": "evidence",
+  "checkpoint_directory": "checkpoints",
+  "proposal_directory": "proposals",
+  "evolution_log": "skill-evolution.log",
+  "quality_report": "../quality.json"
+}

@@ -1,0 +1,37 @@
+{
+  "name": "temp_architecture",
+  "version": "1.0",
+  "description": "按顶级入口生成架构说明。",
+  "input_refs": [
+    "entries.json",
+    "evidence/<entry-id>/typecards.json"
+  ],
+  "prompt": "基于以下入口定义和类型卡片生成该入口的架构说明。区分已接入主流程、独立原型和外部依赖，禁止把无调用证据的模块描述为主流程组成。输入：{input}",
+  "output_schema": {
+    "type": "object",
+    "required": [
+      "entry_id",
+      "responsibilities",
+      "dependencies",
+      "integration_status",
+      "source_nodes"
+    ],
+    "properties": {
+      "entry_id": {
+        "type": "string"
+      },
+      "responsibilities": {
+        "type": "array"
+      },
+      "dependencies": {
+        "type": "array"
+      },
+      "integration_status": {
+        "type": "string"
+      },
+      "source_nodes": {
+        "type": "array"
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "name": "temp_business_flows",
+  "version": "1.0",
+  "description": "按顶级入口生成业务流程证据。",
+  "input_refs": [
+    "evidence/<entry-id>/typecards.json",
+    "evidence/<entry-id>/nodes.json"
+  ],
+  "prompt": "基于以下类型卡片和真实调用链生成业务流程。逐步描述触发条件、输入、输出、失败路径和热点调用，不得补写无源码证据的步骤。输入：{input}",
+  "output_schema": {
+    "type": "object",
+    "required": [
+      "entry_id",
+      "flows",
+      "source_nodes"
+    ],
+    "properties": {
+      "entry_id": {
+        "type": "string"
+      },
+      "flows": {
+        "type": "array"
+      },
+      "source_nodes": {
+        "type": "array"
+      }
+    }
+  }
+}

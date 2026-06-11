@@ -1,0 +1,102 @@
+{
+  "version": "1.0",
+  "description": "顶级入口发现规则与当前入口清单。初始化时由 codegraph_status、codegraph_files 和大模型识别结果填充 entries。",
+  "discovery": {
+    "priority": [
+      "explicit",
+      "module",
+      "backend_package",
+      "frontend_root",
+      "project_root"
+    ],
+    "explicit": {
+      "module_arguments": [],
+      "package_arguments": [],
+      "backend_business_arguments": [],
+      "frontend_view_arguments": [],
+      "business_key": null
+    },
+    "module": {
+      "markers": [
+        "pom.xml",
+        "build.gradle",
+        "settings.gradle",
+        "package.json",
+        "pyproject.toml",
+        "go.mod"
+      ],
+      "minimum_source_files": 1
+    },
+    "backend_package": {
+      "granularity": "common_root_plus_one",
+      "package_declaration_patterns": [
+        "package ",
+        "namespace "
+      ]
+    },
+    "frontend_root": {
+      "candidate_paths": [
+        "frontend/src",
+        "web/src",
+        "ui/src",
+        "client/src",
+        "src"
+      ],
+      "required_extensions": [
+        ".vue",
+        ".tsx",
+        ".jsx",
+        ".ts",
+        ".js"
+      ]
+    },
+    "related_expansion": {
+      "default_enabled": false,
+      "max_depth": 1,
+      "business_key_match": "path_segment_or_package_segment",
+      "substring_match": false,
+      "candidate_sources": [
+        "callers",
+        "callees",
+        "static_imports"
+      ],
+      "exclude_patterns": [
+        "**/*Test.*",
+        "**/*.spec.*",
+        "**/test/**",
+        "**/tests/**",
+        "**/mock/**",
+        "**/mocks/**",
+        "**/fixtures/**",
+        "**/dist/**",
+        "**/build/**",
+        "**/target/**",
+        "**/node_modules/**"
+      ]
+    },
+    "project_root": {
+      "enabled": true
+    }
+  },
+  "entry_schema": {
+    "required": [
+      "id",
+      "entry_type",
+      "path",
+      "languages",
+      "include_patterns",
+      "enabled"
+    ],
+    "entry_types": [
+      "explicit_module",
+      "explicit_package",
+      "backend_business_slice",
+      "frontend_view",
+      "module",
+      "backend_package",
+      "frontend_root",
+      "project_root"
+    ]
+  },
+  "entries": []
+}

@@ -1,0 +1,59 @@
+{
+  "name": "temp_ui",
+  "version": "1.0",
+  "description": "将前端 codegraph 节点证据转成结构化 UI 布局 JSON。",
+  "input_refs": [
+    "evidence/<entry-id>/typecards.json"
+  ],
+  "prompt": "根据以下前端 TypeCard 证据生成 UI 布局 JSON。只读取 semantic_kind=page 的 TypeCard 作为主体输出；semantic_kind=api 的 TypeCard 仅作关联查询，不直接输出到文档。对每个 page 区域下的可交互元素，将 TypeCard 中的 interactions 数组原样映射到对应区域的 interactions 层。只输出证据中存在的区域、组件、交互和数据绑定；未知位置使用 flow 布局，不生成静态页面。输入：{input}",
+  "output_schema": {
+    "type": "object",
+    "required": [
+      "layout",
+      "source_nodes",
+      "confidence"
+    ],
+    "properties": {
+      "layout": {
+        "type": "object",
+        "required": [
+          "type",
+          "children"
+        ],
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "children": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "interactions": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": ["element", "user_action", "api_call", "success_effect", "failure_effect"],
+                    "properties": {
+                      "element":        { "type": "string" },
+                      "user_action":    { "type": "string" },
+                      "api_call":       { "type": "string" },
+                      "success_effect": { "type": "string" },
+                      "failure_effect": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "source_nodes": {
+        "type": "array"
+      },
+      "confidence": {
+        "type": "number"
+      }
+    }
+  }
+}

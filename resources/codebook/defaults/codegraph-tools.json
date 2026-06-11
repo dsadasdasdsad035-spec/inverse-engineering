@@ -1,0 +1,116 @@
+{
+  "version": "1.0",
+  "description": "run-pipeline 调用 Codegraph CLI 时使用的默认参数，可在本次输出目录中按项目调整。",
+  "transport": {
+    "mode": "cli",
+    "binary": "codegraph",
+    "minimum_version": "0.9.9",
+    "record_commands": true,
+    "error_policy": "block_current_entry"
+  },
+  "commands": {
+    "version": [
+      "<binary>",
+      "--version"
+    ],
+    "status": [
+      "<binary>",
+      "status",
+      "-j",
+      "<source>"
+    ],
+    "files": [
+      "<binary>",
+      "files",
+      "-p",
+      "<source>",
+      "--filter",
+      "<entry-path>",
+      "--pattern",
+      "<include-pattern>",
+      "--format",
+      "flat",
+      "-j"
+    ],
+    "query": [
+      "<binary>",
+      "query",
+      "-p",
+      "<source>",
+      "-l",
+      "<index-total-nodes>",
+      "-j",
+      "path:<exact-file-path>"
+    ],
+    "callers": [
+      "<binary>",
+      "callers",
+      "-p",
+      "<source>",
+      "-l",
+      "<limit>",
+      "-j",
+      "<symbol>"
+    ],
+    "callees": [
+      "<binary>",
+      "callees",
+      "-p",
+      "<source>",
+      "-l",
+      "<limit>",
+      "-j",
+      "<symbol>"
+    ]
+  },
+  "output_normalization": {
+    "files_no_match": "empty_array",
+    "all_other_invalid_json": "error"
+  },
+  "pagination": {
+    "on_limit_reached": "narrow_entry_or_file",
+    "record_truncation_warning": true,
+    "deduplicate_by": [
+      "node.id"
+    ]
+  },
+  "symbol_enumeration": {
+    "query": "path:<exact-file-path>",
+    "scope": "per_file",
+    "sampling": "forbidden",
+    "limit_source": "status.nodeCount",
+    "reconcile_with": "files.nodeCount",
+    "exact_filter": "node.filePath == current_file",
+    "deduplicate_by": "node.id",
+    "on_mismatch": "block_entry"
+  },
+  "tools": {
+    "codegraph_status": {},
+    "codegraph_files": {
+      "format": "flat",
+      "maxDepth": 5
+    },
+    "codegraph_query": {
+      "limit": 50,
+      "kinds": [
+        "class",
+        "interface",
+        "type",
+        "method",
+        "function",
+        "route",
+        "component",
+        "variable"
+      ]
+    },
+    "source_read": {
+      "includeCode": true
+    },
+    "codegraph_callers": {
+      "limit": 20
+    },
+    "codegraph_callees": {
+      "limit": 20
+    }
+  }
+}
